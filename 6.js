@@ -1,6 +1,5 @@
 var express = require('express')
 var pdf = require('pdfkit')
-var fs = require('fs')
 var app = express()
 
 app.use('/pdf', express.static('pdf'))
@@ -16,14 +15,16 @@ app.get('/pdf', (req, res)=>{
         },
         layout: 'landscape',  // 'portrait
     })
-    doc.pipe(fs.createWriteStream('./pdf/express.pdf'))
-    
     var teks = 'Ini variabel x'
     doc.text(teks)
     doc.image('./img/1.png', 80, 100, {width: 150})
     doc.moveTo(50, 260).lineTo(400, 260).stroke()
+    var namaFile = 'unduh'
+    namaFile = encodeURIComponent(namaFile) + '.pdf'
+    res.setHeader('Content-type', 'application/pdf')
+    res.setHeader('Content-disposition', 'attachment; filename="'+ namaFile + '"')
+    doc.pipe(res)
     doc.end()
-
     res.send({status: 'PDF sukses dibuat!'})
 })
 
