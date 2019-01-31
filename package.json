@@ -13,6 +13,7 @@
   "author": "lintangwisesa",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.16.4",
     "pdfkit": "^0.9.0"
   }
 }
